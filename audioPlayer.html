@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Audio Player using Canvas</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="progress" width="1000" height="300"></canvas>
+    <audio
+      id="audio"
+      ontimeupdate="audioProgressBar()"
+      src="Stars.mp3"
+    ></audio>
+    <br />
+    <span id="current-time"></span> /
+    <span id="duration"></span>
+    <br />
+    <div class="audioInput">
+      <input
+        type="checkbox"
+        value="None"
+        id="audioInput"
+        name="check"
+        style="display: none"
+      />
+      <label for="audioInput" style="margin-inline: auto"></label>
+    </div>
+
+    <script type="text/javascript">
+      var canvasWidth = 1000;
+      var audioElement = document.getElementById("audio");
+      var canvas = document.getElementById("progress").getContext("2d");
+
+      function playPauseClick() {
+        // Get the checkbox
+        var checkBox = document.getElementById("audioInput");
+
+        if (checkBox.checked == true) {
+          audioElement.play();
+        } else {
+          audioElement.pause();
+        }
+      }
+
+      audioElement.addEventListener("loadedmetadata", function () {
+        var duration = audioElement.duration;
+        var currentTime = audioElement.currentTime;
+        document.getElementById("duration").innerHTML =
+          getTime(duration);
+        document.getElementById("current-time").innerHTML =
+          getTime(currentTime);
+        canvas.fillStyle = "grey";
+        for (let i = 0; i < 1000; i += 20) {
+          canvas.fillRect(i, 100, 10, 200);
+        }
+        // Add coloured tags
+        canvas.beginPath();
+        canvas.moveTo(30, 200);
+        canvas.lineTo(30, -50);
+        canvas.lineWidth = 5;
+        canvas.strokeStyle = "green";
+        canvas.stroke();
+
+        canvas.beginPath();
+        canvas.moveTo(200, 200);
+        canvas.lineTo(200, -50);
+        canvas.strokeStyle = "blue";
+        canvas.stroke();
+
+        canvas.beginPath();
+        canvas.moveTo(780, 200);
+        canvas.lineTo(780, 80);
+        canvas.strokeStyle = "#1B3F8B";
+        canvas.stroke();
+
+        canvas.beginPath();
+        canvas.moveTo(830, 200);
+        canvas.lineTo(830, -50);
+        canvas.strokeStyle = "brown";
+        canvas.stroke();
+
+        canvas.beginPath();
+        canvas.moveTo(900, 200);
+        canvas.lineTo(900, -50);
+        canvas.strokeStyle = "#006400";
+        canvas.stroke();
+
+        canvas.font = "10pt Arial";
+        canvas.strokeStyle = "green";
+        canvas.lineWidth = 0.1;
+        canvas.fillStyle = "green";
+        canvas.fillRect(0, 40, 100, -40);
+        canvas.strokeRect(0, 40, 100, -40);
+        canvas.fillStyle = "white";
+        canvas.fillText("Introduction", 7, 30);
+
+        canvas.strokeStyle = "blue";
+        canvas.fillStyle = "blue";
+        canvas.fillRect(170, 40, 75, -40);
+        canvas.strokeRect(170, 40, 75, -40);
+        canvas.fillStyle = "white";
+        canvas.fillText("one_six", 180, 30);
+
+        canvas.strokeStyle = "#1B3F8B";
+        canvas.fillStyle = "#1B3F8B";
+        canvas.fillRect(750, 60, 65, 30);
+        canvas.strokeRect(750, 60, 65, 30);
+        canvas.fillStyle = "white";
+        canvas.fillText("Polite", 760, 80);
+
+        canvas.strokeStyle = "brown";
+        canvas.fillStyle = "brown";
+        canvas.fillRect(750, 40, 120, -40);
+        canvas.strokeRect(750, 40, 120, -40);
+        canvas.fillStyle = "white";
+        canvas.fillText("Rapport - Empathy", 755, 30);
+
+        canvas.strokeStyle = "#006400";
+        canvas.fillStyle = "#006400";
+        canvas.fillRect(880, 40, 150, -40);
+        canvas.strokeRect(880, 40, 150, -40);
+        canvas.fillStyle = "white";
+        canvas.fillText("Rapport - Energy", 890, 30);
+      });
+
+      // update audio bar to show progress
+      function audioProgressBar() {
+        for (let i = 0; i < 1000; i += 20) {
+          canvas.fillRect(i, 100, 10, 200);
+        }
+        canvas.fillStyle = "grey";
+        for (let i = 0; i < 1000; i += 20) {
+          canvas.fillRect(i, 100, 10, 200);
+        }
+
+        var currentTime = audioElement.currentTime;
+        var duration = audioElement.duration;
+
+        if (currentTime === duration) {
+          var checkBox = document.getElementById("audioInput");
+          checkBox.checked = false;
+        }
+
+        document.getElementById("current-time").innerHTML =
+          getTime(currentTime);
+
+        var percentage = currentTime / duration;
+        var progress = Math.floor(canvasWidth * percentage);
+        canvas.fillStyle = "#FF3333";
+        for (let i = 0; i < progress; i += 20) {
+          canvas.fillRect(i, 100, 10, 200);
+        }
+      }
+
+      function getTime(secs) {
+        var seconds = Math.floor(secs % 60);
+        if (seconds < 10) {
+          seconds = "0" + seconds;
+        }
+        var minutes = Math.floor(secs / 60);
+        return minutes + ":" + seconds;
+      }
+
+      // progress bar onclick event handling
+      var canvas1 = document.getElementById("progress");
+      canvas1.addEventListener(
+        "click",
+        function (e) {
+          var canvas = document.getElementById("progress");
+
+          if (!e) {
+            e = window.event;
+          }
+          try {
+            //get current time
+            audioElement.currentTime =
+            audioElement.duration * (e.offsetX / canvas.clientWidth);
+          } catch (err) {
+            if (window.console && console.error(err));
+          }
+        },
+        true
+      );
+
+      audioElement.addEventListener("timeupdate", audioProgressBar, false);
+    </script>
+  </body>
+</html>
