@@ -13,7 +13,7 @@
       src="Stars.mp3"
     ></audio>
     <br />
-    <span id="current-time"></span> /
+    <span id="current"></span> /
     <span id="duration"></span>
     <br />
     <div class="audioInput">
@@ -48,7 +48,7 @@
         var currentTime = audioElement.currentTime;
         document.getElementById("duration").innerHTML =
           getTime(duration);
-        document.getElementById("current-time").innerHTML =
+        document.getElementById("current").innerHTML =
           getTime(currentTime);
         canvas.fillStyle = "grey";
         for (let i = 0; i < 1000; i += 20) {
@@ -142,7 +142,7 @@
           checkBox.checked = false;
         }
 
-        document.getElementById("current-time").innerHTML =
+        document.getElementById("current").innerHTML =
           getTime(currentTime);
 
         var percentage = currentTime / duration;
