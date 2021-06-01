@@ -6,5 +6,4 @@ While playing, the progress is shown on the bar.
 Few tags are added.
 User can click on the audio bar to get to that point of audio.
 
-Note:
-If blank screen is seen, it is due to the audio file not getting loaded 
+A screen recording of the project has been added for reference "Audio Player using Canvas - Google Chrome 2021-06-01 08-31-09.mp4"
